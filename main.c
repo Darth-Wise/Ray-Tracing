@@ -6,7 +6,16 @@
 
 color ray_color(const ray *r)
 {
-	return (color){ {0,0,0} };
+	vec3 unit_direction = vec3_unit(ray_direction(r));
+	double a = 0.5 * (vec3_y(unit_direction) + 1.0);
+
+	color white = vec3_init(1.0, 1.0, 1.0);
+	color blue = vec3_init(0.5, 0.7, 1.0);
+
+	vec3 term1 = vec3_scale(white, (1.0 - a));
+	vec3 term2 = vec3_scale(blue, a);
+
+	return vec3_add(term1, term2);
 }
 
 int main(void)
@@ -22,13 +31,13 @@ int main(void)
 	double viewport_width = viewport_height * ((double) image_width / image_height);
 	point3 camera_center = (point3){ {0, 0, 0} };
 
-	vec3 viewport_u = (vec3){ viewport_width, 0, 0 };
-	vec3 viewport_v = (vec3){ 0, -viewport_height, 0};
+	vec3 viewport_u = (vec3){ {viewport_width, 0, 0} };
+	vec3 viewport_v = (vec3){ {0, -viewport_height, 0} };
 
 	vec3 pixel_delta_u = vec3_div(viewport_u, image_width);
 	vec3 pixel_delta_v = vec3_div(viewport_v, image_height);
 
-	point3 viewport_upper_left = vec3_sub(vec3_sub(camera_center, (vec3){0, 0, focal_length}),
+	point3 viewport_upper_left = vec3_sub(vec3_sub(camera_center, (vec3){ {0, 0, focal_length} }),
 										  vec3_add(vec3_div(viewport_u, 2), vec3_div(viewport_v, 2)));
 	point3 pixel00_loc = vec3_add(viewport_upper_left, vec3_scale(vec3_add(pixel_delta_u, pixel_delta_v), 0.5));
 

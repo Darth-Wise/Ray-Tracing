@@ -21,7 +21,6 @@ static inline vec3 ray_direction(const ray *r)
 
 static inline point3 ray_at(const ray *r, double t)
 {
-    return r->orig + t * r->dir;
     return vec3_add(r->orig, vec3_scale(r->dir, t));
 }
 
