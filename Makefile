@@ -4,7 +4,7 @@ TARGET = main
 
 all: $(TARGET)
 
-$(TARGET): main.c color.h vec3.h
+$(TARGET): main.c color.h vec3.h ray.h
 	$(CC) $(CFLAGS) main.c -o $(TARGET) -lm
 
 clean:
