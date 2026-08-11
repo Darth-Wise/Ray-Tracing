@@ -3,10 +3,26 @@
 #include "vec3.h"
 
 #include <stdio.h>
+#include <stdbool.h>
+
+bool hit_sphere(const point3 *center, double radius, const ray *r)
+{
+	vec3 oc = vec3_sub(*center, r->orig);
+	double a = vec3_dot(r->dir, r->dir);
+	double b = -2.0 * vec3_dot(r->dir, oc);
+	double c = vec3_dot(oc, oc) - radius * radius;
+	double discriminant = b * b - 4*a*c;
+	return (discriminant >= 0);
+}
 
 color ray_color(const ray *r)
 {
-	vec3 unit_direction = vec3_unit(ray_direction(r));
+	if (hit_sphere(&(point3){ {0, 0, -1} }, 0.5, r))
+	{
+		return (color){ {1, 1, 1} };
+	}
+
+	vec3 unit_direction = vec3_unit(r->dir);
 	double a = 0.5 * (vec3_y(unit_direction) + 1.0);
 
 	color white = vec3_init(1.0, 1.0, 1.0);
@@ -21,7 +37,7 @@ color ray_color(const ray *r)
 int main(void)
 {
 	float aspect_ratio = 16.0 / 9.0;
-	int image_width = 400;
+	int image_width = 2560;
 
 	int image_height = (int) ((double) image_width / aspect_ratio);
 	image_height = (image_height < 1) ? 1 : image_height;

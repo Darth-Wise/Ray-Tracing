@@ -9,16 +9,6 @@ typedef struct
     vec3 dir;
 } ray;
 
-static inline point3 ray_origin(const ray *r)
-{
-    return r->orig;
-}
-
-static inline vec3 ray_direction(const ray *r)
-{
-    return r->dir;
-}
-
 static inline point3 ray_at(const ray *r, double t)
 {
     return vec3_add(r->orig, vec3_scale(r->dir, t));
