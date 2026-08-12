@@ -8,10 +8,10 @@
 double hit_sphere(const point3 *center, double radius, const ray *r)
 {
 	vec3 oc = vec3_sub(*center, r->orig);
-	double a = vec3_dot(r->dir, r->dir);
-	double b = -2.0 * vec3_dot(r->dir, oc);
-	double c = vec3_dot(oc, oc) - radius * radius;
-	double discriminant = b * b - 4*a*c;
+	double a = vec3_length_squared(r->dir);
+	double h = dot(r->dir, oc);
+	double c = vec3_length_squared(OC) - radius * radius;
+	double discriminant = h*h - a*c;
 	
 	if (discriminant < 0)
 	{
@@ -19,7 +19,7 @@ double hit_sphere(const point3 *center, double radius, const ray *r)
 	}
 	else
 	{
-		return ((-b - sqrt(discriminant)) / (2.0 * a));
+		return ((h - sqrt(discriminant)) / a);
 	}
 }
 
