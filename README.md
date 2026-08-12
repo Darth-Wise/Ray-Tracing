@@ -10,3 +10,6 @@ Just:
 
 ```bash
 make all
+```
+
+![Final Render](render.png)
