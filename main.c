@@ -9,8 +9,8 @@ double hit_sphere(const point3 *center, double radius, const ray *r)
 {
 	vec3 oc = vec3_sub(*center, r->orig);
 	double a = vec3_length_squared(r->dir);
-	double h = dot(r->dir, oc);
-	double c = vec3_length_squared(OC) - radius * radius;
+	double h = vec3_dot(r->dir, oc);
+	double c = vec3_length_squared(oc) - radius * radius;
 	double discriminant = h*h - a*c;
 	
 	if (discriminant < 0)
@@ -34,7 +34,7 @@ color ray_color(const ray *r)
 
 	vec3 unit_direction = vec3_unit(r->dir);
 	double a = 0.5 * (vec3_y(unit_direction) + 1.0);
-
+	
 	color white = vec3_init(1.0, 1.0, 1.0);
 	color blue = vec3_init(0.5, 0.7, 1.0);
 
